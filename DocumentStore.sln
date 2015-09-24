@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentStore", "DocumentStore\DocumentStore.csproj", "{C04432B5-D134-4A51-B046-93042E71C0DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentStore.Tests", "DocumentStore.Tests\DocumentStore.Tests.csproj", "{1E646CCD-05E9-40F6-B1C1-AE7C023E3C21}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C04432B5-D134-4A51-B046-93042E71C0DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C04432B5-D134-4A51-B046-93042E71C0DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C04432B5-D134-4A51-B046-93042E71C0DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C04432B5-D134-4A51-B046-93042E71C0DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E646CCD-05E9-40F6-B1C1-AE7C023E3C21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E646CCD-05E9-40F6-B1C1-AE7C023E3C21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E646CCD-05E9-40F6-B1C1-AE7C023E3C21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E646CCD-05E9-40F6-B1C1-AE7C023E3C21}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
