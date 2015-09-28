@@ -17,14 +17,14 @@ namespace DocumentStore
     */
     public static class DbConnectionExtension
     {
-        public static void InsertDocument<T>(this IDbConnection connection, T document)
+        public static bool InsertDocument<T>(this IDbConnection connection, T document)
         {
             var command = connection.CreateCommand();
             command.CommandText = "insert into Documents (Id, CreatedAt, Data) values (?, ?, ?)";
             AddParameter(command, DbType.String, GetIdPropertyValue(document));
             AddParameter(command, DbType.DateTime, DateTime.Now);
             AddParameter(command, DbType.String, SerialiseDocument(document));
-            command.ExecuteNonQuery();
+            return command.ExecuteNonQuery() == 1;            
         }
 
         private static void AddParameter(IDbCommand command, DbType dbType, object value)
@@ -64,14 +64,16 @@ namespace DocumentStore
           command.ExecuteNonQuery();
         }
 
-        public static T GetDocumentById<T, TId>(this IDbConnection connection, TId id)
+        public static T GetDocumentById<T>(this IDbConnection connection, string id)
         {
             var command = connection.CreateCommand();
-            command.CommandText = "select data from Documents where id = ?";
-            command.Parameters.Add(id);
+            command.CommandText = "select Data from Documents where id = ?";            
+            AddParameter(command, DbType.String, id);
             using(var reader = command.ExecuteReader())
             {
-                return JsonConvert.DeserializeObject<T>(reader.GetString(0));
+                if(!reader.Read()) throw new Exception(string.Format("Unable to find document for id '{0}'", id));
+                var data = reader.GetString(reader.GetOrdinal("Data"));;
+                return JsonConvert.DeserializeObject<T>(data);
             }
         }
 

@@ -38,9 +38,10 @@ namespace DocumentStore.Tests
         {
             var album = GivenAValidAlbum();
 
-            InsertDocument(album);
+            var wasSuccessful = InsertDocument(album);
             
             var document = GetDocumentById(album.Id);
+            Assert.That(wasSuccessful, Is.True);
             var insertedAlbum = JsonConvert.DeserializeObject<Album>(document.Data);
             Assert.That(insertedAlbum, Is.EqualTo(album));
         }
@@ -109,6 +110,25 @@ namespace DocumentStore.Tests
             Assert.That(UpdateDocument(album), Is.False);
         }
 
+        [Test]
+        public void GetDocumentByIdWhenSuccessful()
+        {
+            var album = GivenAlbumExists();
+
+            Album result = null;
+            WithConnection(connection => result = connection.GetDocumentById<Album>(album.Id));
+
+            Assert.That(result, Is.EqualTo(album));
+        }
+
+        [Test]
+        public void ThrowExceptionWhenDocumentDoesNotExist()
+        {
+            var idThatDoesNotExist = Guid.NewGuid().ToString();
+
+            Assert.Throws<Exception>(() => WithConnection(con => con.GetDocumentById<Album>(idThatDoesNotExist)));
+        }
+
         private bool UpdateDocument(Album album)
         {
             var success = false;
@@ -149,9 +169,11 @@ namespace DocumentStore.Tests
             return document;
         }
 
-        private void InsertDocument(object document)
+        private bool InsertDocument(object document)
         {
-            WithConnection(connection => connection.InsertDocument(document));
+            var success = false;
+            WithConnection(connection => success = connection.InsertDocument(document));
+            return success;
         }
 
         private void WithConnection(Action<IDbConnection> execute)
