@@ -129,6 +129,40 @@ namespace DocumentStore.Tests
             Assert.Throws<Exception>(() => WithConnection(con => con.GetDocumentById<Album>(idThatDoesNotExist)));
         }
 
+        [Test]
+        public void InsertDocumentWhenUpsertedAndDoesNotExists()
+        {
+            var album = GivenAValidAlbum();
+
+            var wasSuccessful = UpsertDocument(album);
+
+            var document = GetDocumentById(album.Id);
+            Assert.That(wasSuccessful, Is.True);
+            var insertedAlbum = JsonConvert.DeserializeObject<Album>(document.Data);
+            Assert.That(insertedAlbum, Is.EqualTo(album));
+        }
+
+        [Test]
+        public void UpdateDocumentWhenUpsertedAndAlreadyExists()
+        {
+            var album = GivenAlbumExists();
+            album.Artist = "New artist";
+
+            var result = UpsertDocument(album);
+
+            var document = GetDocumentById(album.Id);
+            var updatedAlbum = JsonConvert.DeserializeObject<Album>(document.Data);
+            Assert.That(updatedAlbum.Artist, Is.EqualTo("New artist"));
+            Assert.That(result, Is.True);
+        }
+
+        private bool UpsertDocument(Album album)
+        {
+            var success = false;
+            WithConnection(connection => success = connection.UpsertDocument(album));
+            return success;
+        }
+
         private bool UpdateDocument(Album album)
         {
             var success = false;

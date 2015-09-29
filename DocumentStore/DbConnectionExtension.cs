@@ -51,9 +51,21 @@ namespace DocumentStore
             return JsonConvert.SerializeObject(document);
         }
 
-        public static void UpsertDocument<T>(this IDbConnection connection, T document)
+        /// <summary>
+        /// Convenience method that checks for the existence of document first and 
+        /// inserts or updates the document appropriately
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="connection"></param>
+        /// <param name="document"></param>
+        /// <returns></returns>
+        public static bool UpsertDocument<T>(this IDbConnection connection, T document)
         {
-            throw new NotImplementedException();
+            var command = connection.CreateCommand();
+            command.CommandText = "select count(*) from Documents where id = ?";
+            AddParameter(command, DbType.String, GetIdPropertyValue(document));
+            var count = (int) command.ExecuteScalar();
+            return count == 0 ? InsertDocument(connection, document) : UpdateDocument(connection, document);
         }
 
         public static void DeleteDocument<T>(this IDbConnection connection, T document)
