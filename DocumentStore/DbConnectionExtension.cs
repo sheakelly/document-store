@@ -2,32 +2,57 @@
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Newtonsoft.Json;
 
 namespace DocumentStore
-{
-    /*
-    Expected schema:    
-    create table Document (
-      Id varchar(255) not null primary key,
-      CreateAt datetime not null,
-      UpdatedAt datetime,
-      Data ntext not null
-    )
-    */
+{    
     public static class DbConnectionExtension
     {
         public static bool InsertDocument<T>(this IDbConnection connection, T document)
         {
             var command = connection.CreateCommand();
-            command.CommandText = "insert into Documents (Id, CreatedAt, Data) values (?, ?, ?)";
-            AddParameter(command, DbType.String, GetIdPropertyValue(document));
-            AddParameter(command, DbType.DateTime, DateTime.Now);
-            AddParameter(command, DbType.String, SerialiseDocument(document));
+            command.CommandText = GenerateInsertStatement(typeof(T));
+            BindParameter(command, DbType.String, GetIdPropertyValue(document));
+            BindParameter(command, DbType.DateTime, DateTime.Now);
+            BindParameter(command, DbType.String, SerialiseDocument(document));
+            BindPromotedPropertiesIfRequired(command, document);
             return command.ExecuteNonQuery() == 1;            
         }
 
-        private static void AddParameter(IDbCommand command, DbType dbType, object value)
+        private static string GenerateInsertStatement(Type type)
+        {
+            var propertyInfos = Nifty.EnumeratePromotedPropertyTargets(type);            
+            var builder = new StringBuilder();
+            builder.Append("insert into Documents (Id, CreatedAt, Data");
+            var enumerable = propertyInfos as Target[] ?? propertyInfos.ToArray();
+            foreach (var target in enumerable)
+            {
+                builder.Append(", ").Append(target.ColumnName);
+            }
+            builder.Append(") values (?, ?, ?");
+            for (var i = 0; i < enumerable.Length; i++)
+            {
+                builder.Append(",?");
+            }
+            builder.Append(")");
+            return builder.ToString();
+        }
+
+        private static void BindPromotedPropertiesIfRequired<T>(IDbCommand command, T document)
+        {
+            var propertyTargets = Nifty.EnumeratePromotedPropertyTargets(typeof(T));            
+            foreach (var propertyTarget in propertyTargets)
+            {
+                var value = propertyTarget.GetValue(document);
+                if (value != null)
+                {
+                    BindParameter(command, DbType.String, value);    
+                }                
+            }
+        }
+
+        private static void BindParameter(IDbCommand command, DbType dbType, object value)
         {
             var parameter = command.CreateParameter();
             parameter.DbType = dbType;
@@ -39,10 +64,10 @@ namespace DocumentStore
         {
             var command = connection.CreateCommand();
             command.CommandText = "update Documents set Data = ?, UpdatedAt = ? where Id = ?";                        
-            AddParameter(command, DbType.String, SerialiseDocument(document));
-            AddParameter(command, DbType.DateTime, DateTime.Now);
+            BindParameter(command, DbType.String, SerialiseDocument(document));
+            BindParameter(command, DbType.DateTime, DateTime.Now);
             var idValue = GetIdPropertyValue(document);
-            AddParameter(command, DbType.String, idValue);
+            BindParameter(command, DbType.String, idValue);
             return command.ExecuteNonQuery() == 1;
         }
 
@@ -63,7 +88,7 @@ namespace DocumentStore
         {
             var command = connection.CreateCommand();
             command.CommandText = "select count(*) from Documents where id = ?";
-            AddParameter(command, DbType.String, GetIdPropertyValue(document));
+            BindParameter(command, DbType.String, GetIdPropertyValue(document));
             var count = (int) command.ExecuteScalar();
             return count == 0 ? InsertDocument(connection, document) : UpdateDocument(connection, document);
         }
@@ -80,7 +105,7 @@ namespace DocumentStore
         {
             var command = connection.CreateCommand();
             command.CommandText = "select Data from Documents where id = ?";            
-            AddParameter(command, DbType.String, id);
+            BindParameter(command, DbType.String, id);
             using(var reader = command.ExecuteReader())
             {
                 if(!reader.Read()) throw new Exception(string.Format("Unable to find document for id '{0}'", id));

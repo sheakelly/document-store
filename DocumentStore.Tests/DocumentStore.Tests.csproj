@@ -53,10 +53,13 @@
   <ItemGroup>
     <Compile Include="Album.cs" />
     <Compile Include="AlbumWithoutId.cs" />
-    <Compile Include="DbConnectionExtensionShould.cs" />
+    <Compile Include="DbConnectionExtensionTests.cs" />
     <Compile Include="Document.cs" />
+    <Compile Include="Producer.cs" />
+    <Compile Include="PromotePropertyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataReaderExtensions.cs" />
+    <Compile Include="TestFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DocumentStore\DocumentStore.csproj">
