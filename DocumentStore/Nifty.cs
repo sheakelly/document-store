@@ -13,7 +13,7 @@ namespace DocumentStore
         public static void Promote<T>(Expression<Func<T, object>> expression, string columnName = null)
         {                  
             var targetPropertyInfo = expression.AsPropertyInfo();
-            var targetMemberExpression = GetMemberExpression(expression);
+            var targetMemberExpression = GetTargetExpression(expression);
             var targetExpression = FindParameterExpression<T>(targetMemberExpression);
             var target = new Target
             {
@@ -24,9 +24,9 @@ namespace DocumentStore
             AddPromotedMemberExpression(typeof(T), target);
         }
 
-        public static MemberExpression GetMemberExpression<T>(Expression<Func<T, object>> expression)
+        public static MemberExpression GetTargetExpression<T>(Expression<Func<T, object>> expression)
         {
-            MemberExpression memberExpression = null;
+            MemberExpression memberExpression = null;            
             WalkMemberExpressionTree(expression, current => memberExpression = current);
             return memberExpression;
         }
@@ -40,17 +40,8 @@ namespace DocumentStore
 
         private static LambdaExpression FindParameterExpression<T>(MemberExpression memberExpression)
         {
-            LambdaExpression targetExpression;
-            if (memberExpression.Expression.NodeType != ExpressionType.Parameter)
-            {
-                var parameter = GetParameterExpression(memberExpression.Expression);
-                targetExpression = Expression.Lambda(memberExpression.Expression, parameter);
-            }
-            else
-            {
-                targetExpression = Expression.Lambda(memberExpression, (ParameterExpression) memberExpression.Expression);
-            }
-            return targetExpression;
+            var parameter = GetParameterExpression(memberExpression.Expression);
+            return Expression.Lambda(memberExpression.Expression, parameter);
         }
 
         private static void WalkMemberExpressionTree<T>(Expression<Func<T, object>> expression, Action<MemberExpression> onNode)

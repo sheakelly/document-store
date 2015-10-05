@@ -8,6 +8,7 @@ namespace DocumentStore
         public PropertyInfo PropertyInfo { get; set; }
         public LambdaExpression TargetExpression { get; set; }
         public string ColumnName { get; set; }
+        public int TergetExpressionLevel { get; set; }
 
         public object GetValue(object document)
         {
