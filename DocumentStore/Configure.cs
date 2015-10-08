@@ -4,9 +4,9 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-namespace DocumentStore
+namespace Prim
 {
-    public static class Nifty
+    public static class Configure
     {        
         public static IDictionary<Type, IList<Target>> PromotedPropertyExpressions = new Dictionary<Type, IList<Target>>();        
 

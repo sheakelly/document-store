@@ -1,4 +1,4 @@
-﻿namespace DocumentStore
+﻿namespace Prim
 {
     public static class StringExtension
     {

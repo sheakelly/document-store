@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.IO;
-using System.Linq;
 using NUnit.Framework;
 
-namespace DocumentStore.Tests
+namespace Prim.Tests
 {
     public class TestFixture
     {
@@ -56,7 +54,7 @@ namespace DocumentStore.Tests
             WithConnection(connection =>
             {
                 var command = connection.CreateCommand();
-                command.CommandText = "select Id, Data, CreatedAt, UpdatedAt from Documents where Id = ?";
+                command.CommandText = "select Id, Data from Documents where Id = ?";
                 var parameter = command.CreateParameter();
                 parameter.DbType = DbType.String;
                 parameter.Value = id;
@@ -69,8 +67,6 @@ namespace DocumentStore.Tests
                     }
                     document.Id = reader.GetString(reader.GetOrdinal("Id"));
                     document.Data = reader.GetString(reader.GetOrdinal("Data"));
-                    document.CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt"));
-                    document.UpdatedAt = reader.GetNullableDateTime("UpdatedAt");
                 }
             });
             return document;

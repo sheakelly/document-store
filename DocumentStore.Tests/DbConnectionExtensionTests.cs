@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using NUnit.Framework;
 
-namespace DocumentStore.Tests
+namespace Prim.Tests
 {
     public class DbConnectionExtensionTests
     {
@@ -13,8 +13,6 @@ namespace DocumentStore.Tests
         {
             const string sql = "create table Documents (" +
                                "Id nvarchar(255) not null primary key, " +
-                               "CreatedAt datetime not null, " +
-                               "UpdatedAt datetime, " +
                                "Data ntext not null)";
             _fixture = new TestFixture(sql);
         }       
@@ -30,19 +28,7 @@ namespace DocumentStore.Tests
             Assert.That(wasSuccessful, Is.True);
             var insertedAlbum = JsonConvert.DeserializeObject<Album>(document.Data);
             Assert.That(insertedAlbum, Is.EqualTo(album));
-        }
-
-        [Test]
-        public void SetCreatedAtWhenDocumentIsInserted()
-        {
-            var album = _fixture.GivenAValidAlbum();
-            var time = DateTime.Now;
-
-            _fixture.InsertDocument(album);
-
-            var document = _fixture.GetDocumentById(album.Id);            
-            Assert.That(document.CreatedAt, Is.GreaterThan(time));
-        }
+        }        
 
         [Test]
         public void RequireIdPropertyOnDocumentWhenInserting()
@@ -73,19 +59,6 @@ namespace DocumentStore.Tests
             var updatedAlbum = JsonConvert.DeserializeObject<Album>(document.Data);
             Assert.That(updatedAlbum.Artist, Is.EqualTo("New artist"));
             Assert.That(result, Is.True);
-        }
-
-        [Test]
-        public void SetUpdatedAtWhenDocumentIsUpdated()
-        {
-            var time = DateTime.Now;
-            var album = _fixture.GivenAlbumExists();
-            album.Title = "A new title";
-
-            _fixture.UpdateDocument(album);
-
-            var document = _fixture.GetDocumentById(album.Id);
-            Assert.That(document.UpdatedAt, Is.GreaterThan(time));
         }
 
         [Test]

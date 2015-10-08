@@ -7,8 +7,8 @@
     <ProjectGuid>{1E646CCD-05E9-40F6-B1C1-AE7C023E3C21}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DocumentStore.Tests</RootNamespace>
-    <AssemblyName>DocumentStore.Tests</AssemblyName>
+    <RootNamespace>Prim.Tests</RootNamespace>
+    <AssemblyName>Prim.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -62,9 +62,9 @@
     <Compile Include="TestFixture.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DocumentStore\DocumentStore.csproj">
+    <ProjectReference Include="..\DocumentStore\Prim.csproj">
       <Project>{c04432b5-d134-4a51-b046-93042e71c0df}</Project>
-      <Name>DocumentStore</Name>
+      <Name>Prim</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

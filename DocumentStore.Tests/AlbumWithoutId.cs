@@ -1,4 +1,4 @@
-﻿namespace DocumentStore.Tests
+﻿namespace Prim.Tests
 {
     public class AlbumWithoutId
     {

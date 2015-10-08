@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace DocumentStore
+namespace Prim
 {    
     public static class DbConnectionExtension
     {
@@ -14,7 +14,6 @@ namespace DocumentStore
             var command = connection.CreateCommand();
             command.CommandText = GenerateInsertStatement(typeof(T));
             BindParameter(command, DbType.String, GetIdPropertyValue(document));
-            BindParameter(command, DbType.DateTime, DateTime.Now);
             BindParameter(command, DbType.String, SerialiseDocument(document));
             BindPromotedPropertiesIfRequired(command, document);
             return command.ExecuteNonQuery() == 1;            
@@ -22,15 +21,15 @@ namespace DocumentStore
 
         private static string GenerateInsertStatement(Type type)
         {
-            var propertyInfos = Nifty.EnumeratePromotedPropertyTargets(type);            
+            var targets = Configure.EnumeratePromotedPropertyTargets(type);            
             var builder = new StringBuilder();
-            builder.Append("insert into Documents (Id, CreatedAt, Data");
-            var enumerable = propertyInfos as Target[] ?? propertyInfos.ToArray();
+            builder.Append("insert into Documents (Id, Data");
+            var enumerable = targets as Target[] ?? targets.ToArray();
             foreach (var target in enumerable)
             {
                 builder.Append(", ").Append(target.ColumnName);
             }
-            builder.Append(") values (?, ?, ?");
+            builder.Append(") values (?, ?");
             for (var i = 0; i < enumerable.Length; i++)
             {
                 builder.Append(",?");
@@ -41,7 +40,7 @@ namespace DocumentStore
 
         private static void BindPromotedPropertiesIfRequired<T>(IDbCommand command, T document)
         {
-            var propertyTargets = Nifty.EnumeratePromotedPropertyTargets(typeof(T));            
+            var propertyTargets = Configure.EnumeratePromotedPropertyTargets(typeof(T));            
             foreach (var propertyTarget in propertyTargets)
             {
                 var value = propertyTarget.GetValue(document);
@@ -63,12 +62,27 @@ namespace DocumentStore
         public static bool UpdateDocument<T>(this IDbConnection connection, T document)
         {
             var command = connection.CreateCommand();
-            command.CommandText = "update Documents set Data = ?, UpdatedAt = ? where Id = ?";                        
-            BindParameter(command, DbType.String, SerialiseDocument(document));
-            BindParameter(command, DbType.DateTime, DateTime.Now);
+            command.CommandText = GenerateUpdateStatement<T>();                        
+            BindParameter(command, DbType.String, SerialiseDocument(document));            
             var idValue = GetIdPropertyValue(document);
+            BindPromotedPropertiesIfRequired(command, document);
             BindParameter(command, DbType.String, idValue);
             return command.ExecuteNonQuery() == 1;
+        }
+
+        private static string GenerateUpdateStatement<T>()
+        {
+            var builder = new StringBuilder();
+            builder.Append("update Documents set Data = ?");
+            var targets = Configure.EnumeratePromotedPropertyTargets(typeof(T));
+            foreach (var target in targets)
+            {
+                builder.Append(", ");
+                builder.Append(target.ColumnName);
+                builder.Append(" = ?");                
+            }
+            builder.Append(" where Id = ?");
+            return builder.ToString();
         }
 
         private static string SerialiseDocument(object document)

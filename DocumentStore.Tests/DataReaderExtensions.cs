@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace DocumentStore.Tests
+namespace Prim.Tests
 {
     public static class DataReaderExtensions
     {

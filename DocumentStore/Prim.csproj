@@ -7,8 +7,8 @@
     <ProjectGuid>{C04432B5-D134-4A51-B046-93042E71C0DF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DocumentStore</RootNamespace>
-    <AssemblyName>DocumentStore</AssemblyName>
+    <RootNamespace>Prim</RootNamespace>
+    <AssemblyName>Prim</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -53,8 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbConnectionExtension.cs" />
-    <Compile Include="ISerialisation.cs" />
-    <Compile Include="Nifty.cs" />
+    <Compile Include="Configure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtension.cs" />
     <Compile Include="Target.cs" />

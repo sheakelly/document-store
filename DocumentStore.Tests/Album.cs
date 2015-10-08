@@ -1,6 +1,6 @@
 using System;
 
-namespace DocumentStore.Tests
+namespace Prim.Tests
 {
     public class Album
     {
@@ -8,7 +8,7 @@ namespace DocumentStore.Tests
         public string Title { get; set; }
         public string Artist { get; set; }
         public DateTime ReleaseDate { get; set; }
-        public Producer Producer { get; set; }
+        public Producer Producer { get; set; }        
 
         protected bool Equals(Album other)
         {
