@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prim", "DocumentStore\Prim.csproj", "{C04432B5-D134-4A51-B046-93042E71C0DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prim", "Prim\Prim.csproj", "{C04432B5-D134-4A51-B046-93042E71C0DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prim.Tests", "DocumentStore.Tests\Prim.Tests.csproj", "{1E646CCD-05E9-40F6-B1C1-AE7C023E3C21}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prim.Tests", "Prim.Tests\Prim.Tests.csproj", "{1E646CCD-05E9-40F6-B1C1-AE7C023E3C21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

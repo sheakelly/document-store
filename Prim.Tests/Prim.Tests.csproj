@@ -62,7 +62,7 @@
     <Compile Include="TestFixture.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DocumentStore\Prim.csproj">
+    <ProjectReference Include="..\Prim\Prim.csproj">
       <Project>{c04432b5-d134-4a51-b046-93042e71c0df}</Project>
       <Name>Prim</Name>
     </ProjectReference>
