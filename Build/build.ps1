@@ -10,3 +10,5 @@ Task Clean -depends Clean-Solution
 Task Rebuild -depends Clean, Build
 
 Task default -depends Build
+
+Task Ci -depend default

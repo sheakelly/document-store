@@ -1,39 +1,56 @@
-version: "{build}"
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
 
-install:
-  - git submodule update --init --recursive
-  - ps: .\Build\Setup-Build-Environment.ps1
+# branches to build
+branches:
+  # whitelist
+  only:
+    - master
+    - dev
 
-assembly_info:
-  patch: true
-  file: AssemblyInfo.*
-  assembly_version: "$(prim_assembly_version)"
-  assembly_file_version: "$(prim_assembly_version)"
-  assembly_informational_version: "$(prim_version)"
+cache:
+  - packages
+
+nuget:
+  disable_publish_on_pr: true
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+# to run your custom scripts instead of automatic MSBuild
+build_script: build.bat Ci
+
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#
+
+test: off
+
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
+
+artifacts:
+  - path: 'build\**\*.nupkg'
+  - path: 'build\**\*.zip'
+
+#---------------------------------#
+#      deployment configuration   #
+#---------------------------------#
 
 deploy:
-  - provider: NuGet
-    skip_symbols: true
-    api_key:
-      secure: Vlw7m7mXEZ9XqlZBsQ4fzqDKjO8yTdtXhO9c04RnrD4zwhf6dx+lxBmC9TJ7EF6G
+  - provider: GitHub
+    auth_token:
+      secure: Kx+tJBMfq/OK7sMpvQDdigFOIIfzYkVmIHxNQetanQdIA5Mb8zm/VhAkrId4x5zW
+    artifact: /.*\.zip/
+    draft: true
     on:
       appveyor_repo_tag: true
 
-artifacts:
-  - path: '**\Build\Prim*.nupkg'
-  - path: '**\Build\coverage\*'
-
-configuration: Release
-
-build:
-  project: Prim.sln
-  verbosity: normal
-
-before_build:
-  - nuget restore
-
-after_build:
-  - ps: .\Build\Publish-Release.ps1 -ReleaseVersionNumber "$env:PRIM_VERSION"
-
-after_test:
-  - ps: .\Build\Tests-Coverage.ps1 -GenerateSummaryReport
+  - provider: NuGet
+    api_key:
+      secure: 8BQmcR1hP9MoxvrmXJKMtlRyX6LI36H9ZTU8fSEetvzMGCl1PUlXKZRUGq+GVMja
+    on:
+      appveyor_repo_tag: true
