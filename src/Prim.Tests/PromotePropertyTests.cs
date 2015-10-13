@@ -84,5 +84,23 @@ namespace Prim.Tests
             Assert.That(_fixture.GetDocumentDataById(album.Id)["ProducerName"], Is.EqualTo(album.Producer.Name));
             Assert.That(_fixture.GetDocumentDataById(album.Id)["Artist"], Is.EqualTo(album.Artist));
         }
+
+//        [Test]
+//        public void QueryByPromotedProperties()
+//        {
+//            Configure.Promote<Album>(a => a.Artist);
+//            const string sql = "create table Documents (" +
+//                               "Id nvarchar(255) not null primary key, " +
+//                               "Data ntext not null," +
+//                               "ProducerName nvarchar(255)," +
+//                               "Artist nvarchar(255))";
+//            _fixture = new TestFixture(sql);
+//            var album = _fixture.GivenAlbumExists();
+//
+//            _fixture.FindDocuments(album);
+//
+//            Assert.That(_fixture.GetDocumentDataById(album.Id)["ProducerName"], Is.EqualTo(album.Producer.Name));
+//            Assert.That(_fixture.GetDocumentDataById(album.Id)["Artist"], Is.EqualTo(album.Artist));
+//        }
     }
 }

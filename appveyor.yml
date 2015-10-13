@@ -20,7 +20,7 @@ deploy:
       appveyor_repo_tag: true
 
 artifacts:
-  - path: '**\Build\PactNet*.nupkg'
+  - path: '**\Build\Prim*.nupkg'
   - path: '**\Build\coverage\*'
 
 configuration: Release
