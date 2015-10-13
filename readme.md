@@ -1,1 +1,1 @@
-[https://ci.appveyor.com/api/projects/status/github/sheakelly/prim]
+[Build Status](https://ci.appveyor.com/api/projects/status/github/sheakelly/prim)
