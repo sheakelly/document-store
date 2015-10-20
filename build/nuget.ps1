@@ -6,8 +6,8 @@ properties {
     $nuget.push_server = "http://nuget-local/"
     $nuget.api_key = "fc04c61c-ced2-4041-833c-3237194577b5"
 }
-  
-Task Create-NuGetPackage  {
+
+Task Create-NuGetPackage -depends Set-NuSpecVersion {
 	$version.package = $version.full
 	Assert (Test-Path($nuget.exe)) "Could not find $($nuget.exe)"
 	$specfiles = Get-ChildItemToDepth -ToDepth 5 -Path $($source.dir) | where {$_.FullName -like "*.versioned.nuspec" -and $_.FullName -notlike "*\bin\*.versioned.nuspec"}

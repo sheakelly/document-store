@@ -1,4 +1,5 @@
 Include settings.ps1
+Include commonfunctions.ps1
 Include nuget.ps1
 Include msbuild.ps1
 Include assemblyinfo.ps1
@@ -11,4 +12,4 @@ Task Rebuild -depends Clean, Build
 
 Task default -depends Build
 
-Task Ci -depend default
+Task Ci -depend default, Create-NuGetPackage

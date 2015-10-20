@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>PactNet</id>
+    <version>$version$</version>
+    <authors>Shea Kelly</authors>
+    <owners>Shea Kelly</owners>
+    <licenseUrl>https://github.com/sheakelly/prim/blob/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/sheakelly/prim</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A set of Dapper style IDbConnection extension methods to store .net object as json in a database.</description>
+    <dependencies>
+      <group targetFramework="net40">
+        <dependency id="Newtonsoft.Json" version="7.0.3" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\Prim.dll" target="lib\net40" />
+    <file src="bin\Release\Prim.pdb" target="lib\net40" />
+    <file src="bin\Release\Prim.dll.config" target="lib\net40" />
+    <file src="bin\Release\Prim.xml" target="lib\net40" />    
+  </files>
+</package>
