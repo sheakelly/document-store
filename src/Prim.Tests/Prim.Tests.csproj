@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Album.cs" />
     <Compile Include="AlbumWithoutId.cs" />
+    <Compile Include="TableNamingStrategyTests.cs" />
     <Compile Include="DbConnectionExtensionTests.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="Producer.cs" />

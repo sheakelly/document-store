@@ -8,7 +8,8 @@ namespace Prim
 {
     public static class Configure
     {        
-        public static IDictionary<Type, IList<Target>> PromotedPropertyExpressions = new Dictionary<Type, IList<Target>>();        
+        public static IDictionary<Type, IList<Target>> PromotedPropertyExpressions = new Dictionary<Type, IList<Target>>();
+        public static Func<Type, string> TableNamingStrategy = NamingStrategies.ClassName;
 
         public static void Promote<T>(Expression<Func<T, object>> expression, string columnName = null)
         {                  
@@ -135,5 +136,16 @@ namespace Prim
             }
             return PromotedPropertyExpressions[type];            
         }
+
+        public static void UseTableNamingStrategy(Func<Type, string> tableNamingStrategy)
+        {
+            if(tableNamingStrategy == null)
+            {
+                throw new NullReferenceException("tableNamingStrategy cannot be empty");
+            }
+            TableNamingStrategy = tableNamingStrategy;
+        }
+
+        
     }
 }

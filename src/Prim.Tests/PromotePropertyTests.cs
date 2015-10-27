@@ -5,7 +5,7 @@ namespace Prim.Tests
 {
     public class PromotePropertyTests
     {
-        private TestFixture _fixture;
+       private TestFixture _fixture;
 
         [SetUp]
         public void SetUp()
@@ -25,12 +25,13 @@ namespace Prim.Tests
         [Test]
         public void PromoteNestedPropertyInsertedIntoColumn()
         {
-            const string sql = "create table Documents (" +
+            const string sql = "create table Album (" +
                                "Id nvarchar(255) not null primary key, " +
                                "Data ntext not null," +
                                "ProducerName nvarchar(255))";
-            _fixture = new TestFixture(sql);
+            _fixture = new TestFixture(sql, "Album");
             Configure.Promote<Album>(a => a.Producer.Name, "ProducerName");
+            
             var album = _fixture.GivenAValidAlbum();
 
             _fixture.InsertDocument(album);
@@ -53,11 +54,11 @@ namespace Prim.Tests
 
         private Album GivenAnInsertedAlbumWithPromotedReleaseDate()
         {
-            const string sql = "create table Documents (" +
+            const string sql = "create table Album (" +
                                "Id nvarchar(255) not null primary key, " +
                                "Data ntext not null," +
                                "ReleaseDate nvarchar(255))";
-            _fixture = new TestFixture(sql);
+            _fixture = new TestFixture(sql, "Album");
             Configure.Promote<Album>(a => a.ReleaseDate, "ReleaseDate");
             var album = _fixture.GivenAValidAlbum();
 
@@ -68,15 +69,15 @@ namespace Prim.Tests
 
         [Test]
         public void MultiplePromotedProperties()
-        {
-            Configure.Promote<Album>(a => a.Producer.Name, "ProducerName");
-            Configure.Promote<Album>(a => a.Artist);
-            const string sql = "create table Documents (" +
+        {            
+            const string sql = "create table Album (" +
                                "Id nvarchar(255) not null primary key, " +
                                "Data ntext not null," +
                                "ProducerName nvarchar(255)," +
-                               "Artist nvarchar(255))";
-            _fixture = new TestFixture(sql);
+                               "Artist nvarchar(255))";         
+            _fixture = new TestFixture(sql, "Album");
+            Configure.Promote<Album>(a => a.Producer.Name, "ProducerName");
+            Configure.Promote<Album>(a => a.Artist);
             var album = _fixture.GivenAValidAlbum();
 
             _fixture.InsertDocument(album);

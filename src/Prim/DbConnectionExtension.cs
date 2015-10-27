@@ -23,7 +23,7 @@ namespace Prim
         {
             var targets = Configure.EnumeratePromotedPropertyTargets(type);            
             var builder = new StringBuilder();
-            builder.Append("insert into Documents (Id, Data");
+            builder.Append(string.Format("insert into {0} (Id, Data", Configure.TableNamingStrategy(type)));
             var enumerable = targets as Target[] ?? targets.ToArray();
             foreach (var target in enumerable)
             {
@@ -73,7 +73,7 @@ namespace Prim
         private static string GenerateUpdateStatement<T>()
         {
             var builder = new StringBuilder();
-            builder.Append("update Documents set Data = ?");
+            builder.Append(string.Format("update {0} set Data = ?", Configure.TableNamingStrategy(typeof(T))));
             var targets = Configure.EnumeratePromotedPropertyTargets(typeof(T));
             foreach (var target in targets)
             {
@@ -101,7 +101,7 @@ namespace Prim
         public static bool UpsertDocument<T>(this IDbConnection connection, T document)
         {
             var command = connection.CreateCommand();
-            command.CommandText = "select count(*) from Documents where id = ?";
+            command.CommandText = string.Format("select count(*) from {0} where id = ?", Configure.TableNamingStrategy(typeof(T)));
             BindParameter(command, DbType.String, GetIdPropertyValue(document));
             var count = (int) command.ExecuteScalar();
             return count == 0 ? InsertDocument(connection, document) : UpdateDocument(connection, document);
@@ -110,7 +110,7 @@ namespace Prim
         public static void DeleteDocument<T>(this IDbConnection connection, T document)
         {
           var command = connection.CreateCommand();
-          command.CommandText = "delete Documents where Id = ?";
+          command.CommandText = string.Format("delete {0} where Id = ?", Configure.TableNamingStrategy(typeof(T)));
           command.Parameters.Add(GetIdPropertyValue(document));
           command.ExecuteNonQuery();
         }
@@ -118,7 +118,7 @@ namespace Prim
         public static T GetDocumentById<T>(this IDbConnection connection, string id)
         {
             var command = connection.CreateCommand();
-            command.CommandText = "select Data from Documents where id = ?";            
+            command.CommandText = string.Format("select Data from {0} where id = ?", Configure.TableNamingStrategy(typeof(T)));            
             BindParameter(command, DbType.String, id);
             using(var reader = command.ExecuteReader())
             {

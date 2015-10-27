@@ -9,15 +9,19 @@ namespace Prim.Tests
 {
     public class TestFixture
     {
+        private readonly string _tableName;
         private readonly DbProviderFactory _dbProviderFactory;
         private readonly string _connectionString;
 
-        public TestFixture(string createDbItemsSql)
+        public TestFixture(string createDbItemsSql, string tableName)
         {
+            _tableName = tableName;
             var databaseFile = Path.GetTempFileName();
             _connectionString = string.Format("Data Source={0};Persist Security Info=False", databaseFile);
             _dbProviderFactory = DbProviderFactories.GetFactory("System.Data.SqlServerCe.4.0");
             WithConnection(connection => CreateSchema(connection, createDbItemsSql));
+            Configure.TableNamingStrategy = NamingStrategies.ClassName;
+            Configure.PromotedPropertyExpressions.Clear();
         }
 
         private static void CreateSchema(IDbConnection connection, string createDbItemsSql)
@@ -54,7 +58,7 @@ namespace Prim.Tests
             WithConnection(connection =>
             {
                 var command = connection.CreateCommand();
-                command.CommandText = "select Id, Data from Documents where Id = ?";
+                command.CommandText = string.Format("select Id, Data from {0} where Id = ?", _tableName);
                 var parameter = command.CreateParameter();
                 parameter.DbType = DbType.String;
                 parameter.Value = id;
@@ -78,7 +82,7 @@ namespace Prim.Tests
             WithConnection(connection =>
             {
                 var command = connection.CreateCommand();
-                command.CommandText = "select * from Documents where Id = ?";
+                command.CommandText = string.Format("select * from {0} where Id = ?", _tableName);
                 var parameter = command.CreateParameter();
                 parameter.DbType = DbType.String;
                 parameter.Value = id;

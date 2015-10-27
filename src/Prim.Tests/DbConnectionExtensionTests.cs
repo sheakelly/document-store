@@ -11,10 +11,10 @@ namespace Prim.Tests
         [SetUp]
         public void SetUp()
         {
-            const string sql = "create table Documents (" +
+            const string sql = "create table Album (" +
                                "Id nvarchar(255) not null primary key, " +
                                "Data ntext not null)";
-            _fixture = new TestFixture(sql);
+            _fixture = new TestFixture(sql, "Album");
         }       
 
         [Test]
@@ -113,6 +113,6 @@ namespace Prim.Tests
             var updatedAlbum = JsonConvert.DeserializeObject<Album>(document.Data);
             Assert.That(updatedAlbum.Artist, Is.EqualTo("New artist"));
             Assert.That(result, Is.True);
-        }        
+        }       
     }
 }
