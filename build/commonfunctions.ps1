@@ -19,6 +19,6 @@ Function Get-ChildItemToDepth {
         Write-Debug $("Skipping GCI for Folder: $($_.FullName) " + `
           "(Why: Current depth $CurrentDepth vs limit depth $ToDepth)")
       }
-    }
+  }
   }
 }
