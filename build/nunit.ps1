@@ -35,5 +35,5 @@ function Invoke-TestRunner {
   }
 
 	Write-Host "nunit.runner $nunit.runner"
-  exec { $nunit.runner $dlls /noshadow }
+  exec { & $nunit.runner $dlls /noshadow }
 }
