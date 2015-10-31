@@ -26,8 +26,10 @@ build_script: build.bat Ci
 #       tests configuration       #
 #---------------------------------#
 
-test: off
-
+test:
+  assemblies:
+    - test-assembly-A.dll
+    - '**\*.Tests.dll'
 #---------------------------------#
 #      artifacts configuration    #
 #---------------------------------#
@@ -41,14 +43,6 @@ artifacts:
 #---------------------------------#
 
 deploy:
-  - provider: GitHub
-    auth_token:
-      secure: Kx+tJBMfq/OK7sMpvQDdigFOIIfzYkVmIHxNQetanQdIA5Mb8zm/VhAkrId4x5zW
-    artifact: /.*\.zip/
-    draft: true
-    on:
-      appveyor_repo_tag: true
-
   - provider: NuGet
     api_key:
       secure: 8BQmcR1hP9MoxvrmXJKMtlRyX6LI36H9ZTU8fSEetvzMGCl1PUlXKZRUGq+GVMja

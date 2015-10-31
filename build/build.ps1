@@ -5,12 +5,12 @@ Include msbuild.ps1
 Include assemblyinfo.ps1
 Include nunit.ps1
 
-Task Build -depends Clean, Restore-NuGetPackages, Build-Solution, Run-Tests
+Task Build -depends Clean, Restore-NuGetPackages, Build-Solution
 
 Task Clean -depends Clean-Solution
 
 Task Rebuild -depends Clean, Build
 
-Task default -depends Build
+Task default -depends Build, Run-Tests
 
-Task Ci -depend default, Create-NuGetPackage
+Task Ci -depend default
