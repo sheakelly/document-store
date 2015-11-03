@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>PactNet</id>
+    <id>Prim</id>
     <version>$version$</version>
     <authors>Shea Kelly</authors>
     <owners>Shea Kelly</owners>
@@ -19,6 +19,6 @@
     <file src="bin\Release\Prim.dll" target="lib\net40" />
     <file src="bin\Release\Prim.pdb" target="lib\net40" />
     <file src="bin\Release\Prim.dll.config" target="lib\net40" />
-    <file src="bin\Release\Prim.xml" target="lib\net40" />    
+    <file src="bin\Release\Prim.xml" target="lib\net40" />
   </files>
 </package>

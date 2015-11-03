@@ -8,7 +8,7 @@ Task Clean-Solution {
   Exec { msbuild "$($solution.file)" /t:Clean "/p:Configuration=$($build.configuration)" /verbosity:quiet /nologo }
 }
 
-Task Build-Solution -depends Clean-Solution, Version-AssemblyInfo {
+Task Build-Solution -depends Clean-Solution {
   $verbosity = ($build.verbosity, "quiet" -ne $null)[0]
   Exec { msbuild "$($solution.file)" /t:Build "/p:Configuration=$($build.configuration)" /verbosity:$verbosity /nologo }
 }
