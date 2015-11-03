@@ -22,7 +22,7 @@ test:
     - '**\*.Tests.dll'
 
 artifacts:
-  - path: '**\*.nupkg'
+  - path: '**\Prim.nupkg'
 
 assembly_info:
   patch: true
