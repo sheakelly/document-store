@@ -22,18 +22,18 @@ test:
     - '**\*.Tests.dll'
 
 artifacts:
-  - path: '**\Prim.nupkg'
+  - path: '**\*.nupkg'
 
 assembly_info:
   patch: true
   file: AssemblyInfo.*
-  assembly_version: "2.2.{build}"
+  assembly_version: "{version}"
   assembly_file_version: "{version}"
   assembly_informational_version: "{version}"
 
 deploy:
   - provider: NuGet
     api_key:
-      secure: 8BQmcR1hP9MoxvrmXJKMtlRyX6LI36H9ZTU8fSEetvzMGCl1PUlXKZRUGq+GVMja
+      secure: f58g0NWO1c1HlJ13otoIyxDO+S5DJbkdBXJ+9l1th4ePTmuBcMI+DDNSmkAoK5cE
     on:
       appveyor_repo_tag: false
