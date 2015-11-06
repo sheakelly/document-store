@@ -18,11 +18,10 @@ build:
 
 test:
   assemblies:
-    - test-assembly-A.dll
     - '**\*.Tests.dll'
 
 artifacts:
-  - path: '**\*.nupkg'
+  - path: out\*.nupkg
 
 assembly_info:
   patch: true
