@@ -23,7 +23,7 @@ test:
     - '**\*.Tests.dll'
 
 artifacts:
-  - path: ''**\Prim*.nupkg'
+  - path: '**\Prim*.nupkg'
 
 deploy:
   - provider: NuGet
