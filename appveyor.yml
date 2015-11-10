@@ -8,13 +8,6 @@ branches:
 cache:
   - packages
 
-assembly_info:
-  patch: true
-  file: AssemblyInfo.*
-  assembly_version: "{version}"
-  assembly_file_version: "{version}"
-  assembly_informational_version: "{version}"
-
 nuget:
   disable_publish_on_pr: true
 
@@ -34,7 +27,7 @@ artifacts:
 
 deploy:
   - provider: NuGet
-    artifact: Prim.nupkg
+    artifact: /.*\.nupkg
     api_key:
       secure: f58g0NWO1c1HlJ13otoIyxDO+S5DJbkdBXJ+9l1th4ePTmuBcMI+DDNSmkAoK5cE
     on:
