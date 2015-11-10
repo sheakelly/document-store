@@ -28,7 +28,7 @@ Task Publish-NuGetPackage {
 }
 
 Task Set-NuSpecVersion {
-	$version.package = SlugifyVersion
+	$version.package = $version.full
     try {
 				Push-Location "$($source.dir)"
 				$files = Get-ChildItemToDepth -ToDepth 5 -Path $($source.dir) | where {$_.FullName -like "*.nuspec" -and $_.FullName -notlike "*.versioned.nuspec" -and $_.FullName -notlike "*\packages\*.nuspec" -and $_FullName -notlike "*\bin\*.nuspec" }

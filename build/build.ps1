@@ -12,4 +12,4 @@ Task Rebuild -depends Clean, Build
 
 Task default -depends Build, Run-Tests
 
-Task Ci -depend Build
+Task Ci -depend Build, Create-NuGetPackage

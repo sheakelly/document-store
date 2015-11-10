@@ -16,9 +16,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\Prim.dll" target="lib\net40" />
-    <file src="bin\Release\Prim.pdb" target="lib\net40" />
-    <file src="bin\Release\Prim.dll.config" target="lib\net40" />
-    <file src="bin\Release\Prim.xml" target="lib\net40" />
+    <file src="bin\Prim.dll" target="lib\net40" />
+    <file src="bin\Prim.pdb" target="lib\net40" />
   </files>
 </package>
