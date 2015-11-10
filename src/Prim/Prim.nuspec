@@ -8,7 +8,7 @@
     <licenseUrl>https://github.com/sheakelly/prim/blob/master/LICENSE.txt</licenseUrl>
     <projectUrl>https://github.com/sheakelly/prim</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A set of Dapper style IDbConnection extension methods to store .net object as json in a database.</description>
+    <description>A set of Dapper style IDbConnection extension methods to store .net objects as json in a database.</description>
     <dependencies>
       <group targetFramework="net40">
         <dependency id="Newtonsoft.Json" version="7.0.3" />
