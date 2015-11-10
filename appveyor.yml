@@ -23,11 +23,10 @@ test:
     - '**\*.Tests.dll'
 
 artifacts:
-  - path: out\*.nupkg
+  - path: **\Prim*.nupkg
 
 deploy:
   - provider: NuGet
-    artifact: /.*\.nupkg
     api_key:
       secure: f58g0NWO1c1HlJ13otoIyxDO+S5DJbkdBXJ+9l1th4ePTmuBcMI+DDNSmkAoK5cE
     on:
